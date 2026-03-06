@@ -76,26 +76,10 @@ Set `TRACK17_WEBHOOK_SECRET` to verify webhook signatures.
 
 ## Daily Reports with Auto-Cleanup
 
-The `scripts/track17-daily-report.py` script syncs all packages, auto-removes delivered ones, and outputs a formatted status report. Designed for cron/scheduled automation with WhatsApp or other notification channels.
+The `scripts/track17-daily-report.py` script syncs all packages, auto-removes delivered ones, and prints a formatted status report to stdout. It uses the same path resolution and env vars as the main script — no hardcoded paths or external config files.
 
-**Note:** The daily report script has hardcoded paths (`/home/node/clawd/...`) that need adjusting to match your environment.
-
-**Cron setup example:**
-```json
-{
-  "name": "17TRACK Daily Report",
-  "schedule": {"kind": "cron", "expr": "0 8 * * *"},
-  "sessionTarget": "isolated",
-  "payload": {
-    "kind": "agentTurn",
-    "message": "Run the 17TRACK daily report script from the track17 skill directory (scripts/track17-daily-report.py) and send me the complete output.",
-    "model": "sonnet"
-  },
-  "delivery": {
-    "mode": "announce",
-    "channel": "whatsapp"
-  }
-}
+```bash
+TRACK17_TOKEN=your-token python3 {baseDir}/scripts/track17-daily-report.py
 ```
 
 ## Agent Guidance
